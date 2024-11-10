@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.BbsDAO">
+    <resultMap type="com.entity.Bbs" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="mid" property="mid" jdbcType="INTEGER"/>
+      <result column="title" property="title" jdbcType="VARCHAR"/>
+      <result column="note" property="note" jdbcType="VARCHAR"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+      <result column="fid" property="fid" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    
+    <insert id="add" parameterType="Bbs">
+      insert into bbs values(null,#{mid},#{title},#{note},#{savetime},#{fid})
+    </insert>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from bbs where 1=1
+      <if test="mid!=null and mid!=''">
+        and mid=#{mid}
+      </if>
+      <if test="key!=null and key!=''">
+        and title like "%"#{key}"%"
+      </if>
+      <if test="fid!=null and fid!=''">
+        and fid=#{fid}
+      </if>
+
+      order by id desc
+    </select>
+    
+    <delete id="delete" parameterType="Int">
+      delete from bbs where id=#{id}
+    </delete>
+    
+    <select id="findById" parameterType="int" resultType="Bbs">
+      select * from bbs where id= #{id}
+    </select>
+    
+    <update id="update" parameterType="Bbs">
+      update bbs set title=#{title},note=#{note} where id=#{id}    
+    </update>
+	
+</mapper>
+

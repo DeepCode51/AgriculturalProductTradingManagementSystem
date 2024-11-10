@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.FavbbsDAO">
+    <resultMap type="com.entity.Favbbs" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="bbsid" property="bbsid" jdbcType="VARCHAR"/>
+      <result column="mid" property="mid" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    
+    <insert id="add" parameterType="Favbbs">
+      insert into favbbs values(null,#{bbsid},#{mid})
+    </insert>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from favbbs where 1=1
+      <if test="mid!=null and mid!=''">
+        and mid=#{mid}
+      </if>
+      <if test="bbsid!=null and bbsid!=''">
+        and bbsid=#{bbsid}
+      </if>
+      order by id desc
+    </select>
+    
+    <delete id="delete" parameterType="Int">
+      delete from favbbs where id=#{id}
+    </delete>
+    
+    <select id="findById" parameterType="int" resultType="Favbbs">
+      select * from favbbs where id=1
+    </select>
+    
+    
+	
+</mapper>
+

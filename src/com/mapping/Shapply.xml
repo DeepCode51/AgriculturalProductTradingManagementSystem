@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ShapplyDAO">
+    <resultMap type="com.entity.Shapply" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="memberid" property="memberid" jdbcType="INTEGER"/>
+      <result column="orderid" property="orderid" jdbcType="INTEGER"/>
+      <result column="productid" property="productid" jdbcType="INTEGER"/>
+      <result column="lxr" property="lxr" jdbcType="VARCHAR"/>
+      <result column="tel" property="tel" jdbcType="VARCHAR"/>
+      <result column="addr" property="addr" jdbcType="VARCHAR"/>
+      <result column="note" property="note" jdbcType="VARCHAR"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+      <result column="shstatus" property="shstatus" jdbcType="VARCHAR"/>
+      <result column="shopid" property="shopid" jdbcType="VARCHAR"/>
+      
+    </resultMap>
+    
+    <select id="selectAll" resultMap="BaseResultMap">
+      select * from shapply where 1=1  
+      <if test="key!=null and key!=''">
+        and title like "%"#{key}"%"
+      </if>
+      <if test="memberid!=null and memberid!=''">
+        and memberid = #{memberid}
+      </if>
+      <if test="shopid!=null and shopid!=''">
+        and shopid = #{shopid}
+      </if>
+      
+      order by id desc
+    </select>
+    
+    
+    
+    <insert id="add" parameterType="Shapply">
+      insert into shapply values(null,#{memberid},#{orderid},#{productid},#{lxr},#{tel},#{addr},#{note},now(),#{shstatus},#{shopid} )
+    </insert>
+    
+    <select id="findById" parameterType="int" resultType="Shapply">
+      select * from shapply where id=#{id}
+    </select>
+    
+    <update id="update" parameterType="Shapply">
+      update shapply set shstatus=#{shstatus} where id=#{id}    
+    </update>
+    
+    <delete id="delete" parameterType="int">
+      delete from shapply where id=#{id}
+    </delete>
+    
+    
+    
+	
+</mapper>
+

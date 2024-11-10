@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.JbrecordDAO">
+    <resultMap type="com.entity.Jbrecord" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="bbsid" property="bbsid" jdbcType="INTEGER"/>
+      <result column="mid" property="mid" jdbcType="INTEGER"/>
+      <result column="note" property="note" jdbcType="VARCHAR"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    
+    <insert id="add" parameterType="Jbrecord">
+      insert into jbrecord values(null,#{bbsid},#{mid},#{note},now())
+    </insert>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from jbrecord where 1=1
+      <if test="mid!=null and mid!=''">
+        and mid=#{mid}
+      </if>
+      order by id desc
+    </select>
+    
+    <delete id="delete" parameterType="Int">
+      delete from jbrecord where id=#{id}
+    </delete>
+    
+    <select id="findById" parameterType="int" resultType="Jbrecord">
+      select * from jbrecord where id=1
+    </select>
+    
+    
+	
+</mapper>
+

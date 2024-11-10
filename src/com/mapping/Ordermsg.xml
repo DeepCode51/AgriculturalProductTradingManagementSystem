@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.OrdermsgDAO">
+    <resultMap type="com.entity.Ordermsg" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="ddno" property="ddno" jdbcType="VARCHAR"/>
+      <result column="memberid" property="memberid" jdbcType="VARCHAR"/>
+      <result column="productid" property="productid" jdbcType="VARCHAR"/>
+      <result column="num" property="num" jdbcType="INTEGER"/>
+      <result column="total" property="total" jdbcType="VARCHAR"/>
+      <result column="fkstatus" property="fkstatus" jdbcType="VARCHAR"/>
+      <result column="shstatus" property="shstatus" jdbcType="VARCHAR"/>
+      <result column="addr" property="addr" jdbcType="VARCHAR"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+      <result column="delstatus" property="delstatus" jdbcType="VARCHAR"/>
+      <result column="shfs" property="shfs" jdbcType="VARCHAR"/>
+      <result column="zffs" property="zffs" jdbcType="VARCHAR"/>
+      <result column="saver" property="saver" jdbcType="VARCHAR"/>
+      <result column="isdd" property="isdd" jdbcType="VARCHAR"/>
+      <result column="fid" property="fid" jdbcType="VARCHAR"/>
+      <result column="goodsid" property="goodsid" jdbcType="VARCHAR"/>
+      <result column="goodstype" property="goodstype" jdbcType="VARCHAR"/>
+      <result column="remark" property="remark" jdbcType="VARCHAR"/>
+      
+    </resultMap>
+    
+    <insert id="add" parameterType="Ordermsg">
+      insert into ordermsg values(null,#{ddno},#{memberid},#{productid},#{num},#{total},#{fkstatus},#{shstatus},#{addr},#{savetime},#{delstatus},#{shfs},#{zffs},#{saver},#{isdd},#{fid},#{goodsid},#{goodstype},#{remark})
+    </insert>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from ordermsg where 1=1 
+      <if test="memberid!=null and memberid!=''">
+      and memberid=#{memberid}
+      </if>
+      <if test="ddno!=null and ddno!=''">
+      and ddno=#{ddno}
+      </if>
+      <if test="fkstatus!=null and fkstatus!=''">
+      and fkstatus!=#{fkstatus}
+      </if>
+      
+      <if test="saver!=null and saver!=''  ">
+      and saver=#{saver}
+      </if>
+      <if test="productid!=null and productid!=''">
+      and productid=#{productid}
+      </if>
+       <if test="delstatus!=null and delstatus!=''">
+      and delstatus=#{delstatus}
+      </if>
+      <if test="goodstype!=null and goodstype!=''">
+      and goodstype=#{goodstype}
+      </if>
+      
+      <if test="key!=null and key!=''">
+      and date_format(savetime,'%Y-%m-%d')=#{key}
+      </if>
+      order by id desc
+    </select>
+    
+    <update id="update" parameterType="Ordermsg">
+      update ordermsg 
+      <set>
+        <if test="fkstatus!=null and fkstatus!=''">
+          fkstatus=#{fkstatus},
+        </if>
+        
+        <if test="shfs!=null and shfs!=''">
+          shfs=#{shfs},
+        </if>
+        
+        <if test="zffs!=null and zffs!=''">
+          zffs=#{zffs},
+        </if>
+        
+        <if test="addr!=null and addr!=''">
+          addr=#{addr},
+        </if>
+        
+        <if test="isdd!=null and isdd!=''">
+          isdd=#{isdd},
+        </if>
+        
+        <if test="delstatus!=null and delstatus!=''">
+          delstatus=#{delstatus},
+        </if>
+         <if test="remark!=null and remark!=''">
+          remark=#{remark}
+        </if>
+        
+      </set>
+      where id=#{id}
+    </update>
+    
+    <select id="findById" parameterType="Int" resultType="Ordermsg">
+      select * from ordermsg where id=#{id}
+    </select>
+    
+    <select id="selectSaleMoney" parameterType="HashMap" resultMap="BaseResultMap">
+      select DISTINCT(DATE_FORMAT(savetime,'%Y-%c-%d')) as savetime, sum(total) as total  from ordermsg where 1=1
+       <if test="fkstatus!=null and fkstatus!=''">
+      and fkstatus=#{fkstatus}
+      </if>
+      <if test="goodstype!=null and goodstype!=''">
+      and goodstype=#{goodstype}
+      </if>
+      <if test="saver!=null and saver!=''">
+      and saver=#{saver}
+      </if>
+      GROUP BY DATE_FORMAT(savetime,'%Y-%c-%d') order by DATE_FORMAT(savetime,'%Y-%c-%d') 
+    </select>
+    
+    <select id="selectPh" parameterType="HashMap" resultMap="BaseResultMap">
+    select sum(num) as num,productid from ordermsg where fkstatus='交易完成' and fid=#{fid} group by productid order by num desc
+    </select>
+    
+
+    
+    
+    <select id="selectSale" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from ordermsg where 1=1
+      <if test="fkstatus!=null and fkstatus!=''">
+      and fkstatus=#{fkstatus}
+      </if>
+      <if test="saver!=null and saver!=''">
+      and saver=#{saver}
+      </if>
+      <if test="productid!=null and productid!=''">
+      and productid=#{productid}
+      </if>
+      order by id desc
+    </select>
+    
+    
+    
+    
+   
+</mapper>
+

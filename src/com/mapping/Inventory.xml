@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.InventoryDAO">
+    <resultMap type="com.entity.Inventory" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="productid" property="productid" jdbcType="VARCHAR"/>
+      <result column="type" property="type" jdbcType="VARCHAR"/>
+      <result column="num" property="num" jdbcType="INTEGER"/>
+    </resultMap>
+    
+    
+    <insert id="add" parameterType="Inventory">
+      insert into inventory values(null,#{productid},#{type},#{num})
+    </insert>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from inventory where 1=1
+      <if test="productid!=null and productid!=''">
+        and productid=#{productid}
+      </if>
+      <if test="type!=null and type!=''">
+        and type=#{type}
+      </if>
+      order by id desc
+    </select>
+	
+</mapper>
+

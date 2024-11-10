@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ApplyDAO">
+    <resultMap type="com.entity.Apply" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="memberid" property="memberid" jdbcType="VARCHAR"/>
+      <result column="realname" property="realname" jdbcType="VARCHAR"/>
+      <result column="filename" property="filename" jdbcType="VARCHAR"/>
+      <result column="idcard" property="idcard" jdbcType="VARCHAR"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+      <result column="shstatus" property="shstatus" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <insert id="add" parameterType="Apply">
+      insert into apply values(null,#{memberid},#{realname},#{filename},#{idcard},#{savetime},#{shstatus})
+    </insert>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from apply where 1=1
+      <if test="memberid!=null and memberid!=''">
+        and memberid=#{memberid}
+      </if>
+      <if test="key!=null and key!=''">
+        and realname like "%"#{key}"%"
+      </if>
+      order by id desc
+    </select>
+    
+    <select id="findById" parameterType="int" resultType="Apply">
+      select * from apply where id=#{id}
+    </select>
+    
+    <update id="update" parameterType="Apply">
+      update apply set shstatus=#{shstatus} where id=#{id}    
+    </update>
+    
+    <delete id="delete" parameterType="Int">
+      delete from apply where id=#{id}
+    </delete>
+    
+	
+</mapper>
+
